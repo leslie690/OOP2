@@ -4,56 +4,55 @@ include('connect.php');
 
 
 if(isset($_POST['register'])){
-    $incidentdate = $_POST['incidentdate'];
-    $location = $_POST['location'];
-    $vehicletype = $_POST['vehicletype'];
-    $licenseplate = $_POST['licenseplate'];
-    $color = $_POST['color'];
-    $injuries = $_POST['injuries'];
-    $fatalities = $_POST['fatalities'];
-    $weather = $_POST['weather'];
-    $trafficdensity = $_POST['trafficdensity'];
-    $roadclosures = $_POST['roadclosures'];
-    $witnessname = $_POST['witnessname'];
-    $witnesscontact = $_POST['witnesscontact'];
-    $comments = $_POST['comments'];
-   
+    $idno = $_POST['idno'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $doctor = $_POST['doctor'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
 
-    
+    $sql = "SELECT * FROM doctor WHERE  name = '$name' AND email = '$email'";
+$result = mysqli_query($conn, $sql);
 
-    $sql = "SELECT * FROM user WHERE  weather = '$weather' AND injuries = '$injuries'";
-    $result = mysqli_query($conn, $sql);
-    
-    if($result){
-        $num = mysqli_num_rows($result);
-    
-        if($num > 0){
-            echo "ready to add customer";
-        }else{
-          
-            
-            $sql = "INSERT INTO user(incidentdate, location, vehicletype, licenseplate, color, injuries, fatalities, weather, trafficdensity, roadclosures, witnessname, witnesscontact, comments) VALUES('$incidentdate', '$location', '$vehicletype', '$licenseplate', '$color', '$injuries', '$fatalities', '$weather', '$trafficdensity', '$roadclosures', '$witnessname', '$witnesscontact', '$comments')";
+if($result){
+    $num = mysqli_num_rows($result);
+
+    if($num > 0){
+        echo "ready to add customer";
+    }else{
+      
         
-            $result = mysqli_query($conn, $sql);
+        $sql = "INSERT INTO doctor(idno, name, email, doctor, phone, address ) VALUES('$idno', '$name', '$email', '$doctor', '$phone', '$address')";
     
-    
-            if($result){
-                    echo "user added successfully";
-             }
-    
-            
-    
-            else{
-                echo "user already exists";
-            }
+        $result = mysqli_query($conn, $sql);
+
+
+        if($result){
+                echo "user added successfully";
+         }
+
         
-            
-        
+
+        else{
+            echo "user already exists";
         }
+    
+        
+    
     }
 }
 
+   
+
+
+}
+
+
+
 ?>
+
+
+
 
 
 <!DOCTYPE html>
@@ -61,7 +60,7 @@ if(isset($_POST['register'])){
 
 <head>
 
-    <title>user</title>
+    <title>Doctor</title>
 
     <style>
         * {
@@ -154,13 +153,17 @@ if(isset($_POST['register'])){
         }
         
         .background-image {
-            background: url(./pic/images.jpg);
+            background: url(/pic/img6.jpg);
             width: 100%;
             height: 100vh;
             background-size: cover;
             background-repeat: no-repeat;
             padding-top: 6%;
             position: relative;
+        }
+        
+        .body {
+            background-color: grey;
         }
         
         .background-content {
@@ -345,29 +348,22 @@ if(isset($_POST['register'])){
         
         .form {
             margin-top: 10px;
-            padding: 0;
-            padding-left: 0px;
+            padding: 10px;
+            padding-left: 20px;
             border: 2px solid black;
             width: 50%;
             margin-left: auto;
             margin-right: auto;
-            border-radius: 10px;
+            background: silver;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
         
         .form label {
             font-size: 20px;
             padding: 10px;
-        }
-        
-        .class {
-            background: gray;
-            width: 100%;
-        }
-        
-        .font input {
-            font-size: 40px;
-            padding: 10px;
-            margin-left: 10px;
         }
         
         .table {
@@ -389,7 +385,6 @@ if(isset($_POST['register'])){
 
         <nav class="navbar">
             <a href="./come.html">Home</a>
-         
             <a href="user.php">user</a>
             <a href="admin.php">ADMIN</a>
 
@@ -397,73 +392,98 @@ if(isset($_POST['register'])){
 
         </nav>
 
-     
+       
     </header>
-
-
-
-    <h1><marquee behavior="alternate" direction="">Road Safety System</marquee> </h1>
+    <div>
+        <h1>Road Safety</h1>
     </div>
+
+    <h1 style="font-size: 30px;"><center>ADMIN List</center></h1> 
 
     <div class="form">
-        <form action="user.php" method="POST">
-        <!-- Incident Details -->
-        <label for="incident-date">Incident Date and Time:</label>
-        <input type="datetime-local" id="incident-date" name="incidentdate" required><br>
 
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required><br>
+    
 
-        <!-- Vehicle Information -->
-        <label for="vehicle-type">Vehicle Type:</label>
-        <input type="text" id="vehicletype" name="vehicletype" required><br>
+        <form action="doctor.php" method="POST">
 
-        <label for="license-plate">License Plate Number:</label>
-        <input type="text" id="license-plate" name="licenseplate"><br>
+            
 
-        <label for="color">Vehicle Color:</label>
-        <input type="text" id="color" name="color"><br>
+            <label for="">Id Number</label>
+            <input type="text" name="idno" placeholder="Enter username" style="margin-left: 25px;"><br>
+            <label for="">Name</label>
+            <input type="text" name="name" placeholder="Name" style="margin-left: 64px;"><br>
+            <label for="">Email</label>
+            <input type="text" name="email" placeholder="email" style="margin-left: 64px;"><br>
+            <label for="">Doctor</label>
+            <input type="text" name="doctor" placeholder="Doctor" style="margin-left: 56px;"><br>
+            <label for="">Phone</label>
+            <input type="number" name="phone" placeholder="phone" style="margin-left: 62px;"><br>
+            <label for="">Address</label>
+            <input type="text" name="address" placeholder="Address" style="margin-left: 47px;"><br>
 
-        <!-- Injury and Casualty Information -->
-        <label for="injuries">Number of Injuries:</label>
-        <input type="number" id="injuries" name="injuries" min="0"><br>
-
-        <label for="fatalities">Number of Fatalities:</label>
-        <input type="number" id="fatalities" name="fatalities" min="0"><br>
-
-        <!-- Weather Conditions -->
-        <label for="weather">Weather Conditions:</label>
-        <input type="text" id="weather" name="weather"><br>
-
-        <!-- Traffic Conditions -->
-        <label for="traffic-density">Traffic Density:</label>
-        <input type="text" id="traffic-density" name="trafficdensity"><br>
-
-        <label for="road-closures">Road Closures/Detours:</label>
-        <input type="text" id="road-closures" name="roadclosures"><br>
-
-        <!-- Witness Information -->
-        <label for="witness-name">Witness Name:</label>
-        <input type="text" id="witness-name" name="witnessname"><br>
-
-        <label for="witness-contact">Witness Contact:</label>
-        <input type="tel" id="witnesscontact" name="witnesscontact"><br>
-
-       
-        <!-- User Comments -->
-        <label for="comments">Additional Comments:</label>
-        <textarea id="comments" name="comments" rows="4"></textarea><br>
-
-        <!-- Submit Button -->
-        <input type="submit" name="register" value="Submit Report">
+            <input type="submit" name="register" style="margin-left: 30%; margin-top: 10px; margin-bottom: 10px; width: 30%;">
         </form>
-    </div>
 
+    </div>
 
     <div class="table">
-       
-    </div>
+        <table style="border: 2px solid black;">
+            <thead>
 
+            <tr>
+                <th style="border: 1px solid black;">Id Number</th>
+                <th style="border: 1px solid black; ">Name</th>
+                <th style="border: 1px solid black;">Email</th>
+                <th style="border: 1px solid black;">Doctor</th>
+                <th style="border: 1px solid black;">Phone</th>
+                <th style="border: 1px solid black;">Address</th>
+            </tr>
+
+
+            </thead>
+            
+            <tbody>
+
+            <?php
+                
+                $sql = "SELECT * FROM `doctor`";
+                $result = mysqli_query($conn, $sql);
+
+                if($result){
+
+                    while($row = mysqli_fetch_assoc($result)){
+
+                        $idno=$row['idno'];
+                        $name=$row['name'];
+                        $email=$row['email'];
+                        $doctor=$row['doctor'];
+                        $phone=$row['phone'];
+                        $address=$row['address'];
+
+                        echo '<tr>
+                        <td style="border: 1px solid black;">'.$idno.'</td>
+                        <td style="border: 1px solid black;">'.$name.'</td>
+                        <td style="border: 1px solid black;">'.$email.'</td>
+                        <td style="border: 1px solid black;">'.$doctor.'</td>
+                        <td style="border: 1px solid black;">'.$phone.'</td>
+                        <td style="border: 1px solid black;">'.$address.'</td>
+                    </tr>';
+                    }
+                    
+                }
+                
+                ?>
+
+
+            
+            </tbody>
+            
+
+        </table>
+
+
+
+    </div>
 
 </body>
 
